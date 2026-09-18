@@ -38,6 +38,14 @@ export default function AdminDashboard() {
   // Edit Form States
   const [editData, setEditData] = useState<any>({});
   const [editTagInput, setEditTagInput] = useState("");
+  
+  const [newThumbnailFile, setNewThumbnailFile] = useState<File | null>(null);
+  const [newThumbnailPreview, setNewThumbnailPreview] = useState<string>("");
+  
+  const [newGalleryFiles, setNewGalleryFiles] = useState<File[]>([]);
+  const [newGalleryPreviews, setNewGalleryPreviews] = useState<string[]>([]);
+  
+  const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((currentUser) => {
@@ -106,8 +114,14 @@ export default function AdminDashboard() {
     setIsEditing(false);
   };
 
-  const openEdit = (portfolio: any = selectedPortfolio) => {
-    setEditData({ ...portfolio });
+  const openEdit = (portfolio: any) => {
+    const dataToEdit = portfolio || selectedPortfolio;
+    if (!dataToEdit) return;
+    setEditData({ ...dataToEdit });
+    setNewThumbnailFile(null);
+    setNewThumbnailPreview("");
+    setNewGalleryFiles([]);
+    setNewGalleryPreviews([]);
     setIsEditing(true);
   };
 
@@ -137,9 +151,62 @@ export default function AdminDashboard() {
     }
   };
 
+  const handleThumbnailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      setNewThumbnailFile(file);
+      setNewThumbnailPreview(URL.createObjectURL(file));
+    }
+  };
+
+  const handleGalleryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const filesArray = Array.from(e.target.files);
+      setNewGalleryFiles(prev => [...prev, ...filesArray]);
+      const newPreviews = filesArray.map(f => URL.createObjectURL(f));
+      setNewGalleryPreviews(prev => [...prev, ...newPreviews]);
+    }
+  };
+
+  const removeExistingGallery = (index: number) => {
+    const updated = [...(editData.gallery || [])];
+    updated.splice(index, 1);
+    setEditData({ ...editData, gallery: updated });
+  };
+
+  const removeNewGallery = (index: number) => {
+    setNewGalleryFiles(prev => prev.filter((_, i) => i !== index));
+    setNewGalleryPreviews(prev => prev.filter((_, i) => i !== index));
+  };
+
   const handleSaveEdit = async () => {
+    setIsSaving(true);
     try {
-      await updateDoc(doc(db, "portfolios", editData.id), {
+      let updatedImageUrl = editData.imageUrl;
+      if (newThumbnailFile) {
+        const formData = new FormData();
+        formData.append("image", newThumbnailFile);
+        const res = await fetch("/api/upload", { method: "POST", body: formData });
+        if (res.ok) {
+          const data = await res.json();
+          updatedImageUrl = data.url;
+        }
+      }
+
+      let updatedGalleryUrls = [...(editData.gallery || [])];
+      if (newGalleryFiles.length > 0) {
+        for (const file of newGalleryFiles) {
+          const formData = new FormData();
+          formData.append("image", file);
+          const res = await fetch("/api/upload", { method: "POST", body: formData });
+          if (res.ok) {
+            const data = await res.json();
+            updatedGalleryUrls.push(data.url);
+          }
+        }
+      }
+
+      const updatedData = {
         title: editData.title,
         category: editData.category,
         description: editData.description,
@@ -149,15 +216,22 @@ export default function AdminDashboard() {
         liveUrl: editData.liveUrl,
         angkatan: editData.angkatan || "",
         contact: editData.contact || "",
-        date: editData.date || new Date().toISOString().split("T")[0]
-      });
-      // Update local state
-      setPendingPortfolios(prev => prev.map(p => p.id === editData.id ? editData : p));
-      setSelectedPortfolio(editData);
+        date: editData.date || new Date().toISOString().split("T")[0],
+        imageUrl: updatedImageUrl,
+        gallery: updatedGalleryUrls,
+      };
+
+      await updateDoc(doc(db, "portfolios", editData.id), updatedData);
+      
+      const finalData = { id: editData.id, ...editData, ...updatedData };
+      setPendingPortfolios(prev => prev.map(p => p.id === finalData.id ? finalData : p));
+      setSelectedPortfolio(finalData);
       setIsEditing(false);
     } catch (error) {
       console.error("Error saving edits:", error);
       alert("Gagal menyimpan perubahan.");
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -353,6 +427,46 @@ export default function AdminDashboard() {
                     />
                   </div>
 
+                  <div className="flex flex-col gap-1.5">
+                    <label className="text-xs font-bold text-slate-500 uppercase">Thumbnail / Gambar Utama</label>
+                    <div className="flex items-center gap-4">
+                      {newThumbnailPreview ? (
+                        <div className="relative w-32 h-20 rounded-lg overflow-hidden border border-slate-200 shadow-sm">
+                          <Image src={newThumbnailPreview} alt="New Thumbnail" fill className="object-cover" />
+                          <button type="button" onClick={() => { setNewThumbnailFile(null); setNewThumbnailPreview(""); }} className="absolute top-1 right-1 bg-black/60 text-white rounded-full p-1 hover:bg-rose-500"><X className="w-3 h-3" /></button>
+                        </div>
+                      ) : editData.imageUrl ? (
+                        <div className="relative w-32 h-20 rounded-lg overflow-hidden border border-slate-200 shadow-sm opacity-60">
+                          <Image src={editData.imageUrl} alt="Current Thumbnail" fill className="object-cover" />
+                        </div>
+                      ) : (
+                        <div className="w-32 h-20 rounded-lg border border-dashed border-slate-300 flex items-center justify-center text-xs text-slate-400">Kosong</div>
+                      )}
+                      <input type="file" accept="image/*" onChange={handleThumbnailChange} className="text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary-50 file:text-primary-700 hover:file:bg-primary-100 dark:file:bg-primary-900/30 dark:file:text-primary-400" />
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col gap-1.5 mt-2">
+                    <label className="text-xs font-bold text-slate-500 uppercase">Galeri Proyek (Opsional)</label>
+                    
+                    <div className="flex flex-wrap gap-2 mb-2">
+                      {(editData.gallery || []).map((url: string, i: number) => (
+                        <div key={i} className="relative w-24 h-16 rounded-lg overflow-hidden border border-slate-200 shadow-sm group">
+                          <Image src={url} alt="Gallery" fill className="object-cover group-hover:opacity-60 transition-opacity" />
+                          <button type="button" onClick={() => removeExistingGallery(i)} className="absolute inset-0 m-auto w-6 h-6 bg-rose-500 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:scale-110"><Trash2 className="w-3.5 h-3.5" /></button>
+                        </div>
+                      ))}
+                      {newGalleryPreviews.map((url: string, i: number) => (
+                        <div key={i} className="relative w-24 h-16 rounded-lg overflow-hidden border-2 border-primary-400 shadow-sm group">
+                          <Image src={url} alt="New Gallery" fill className="object-cover group-hover:opacity-60 transition-opacity" />
+                          <button type="button" onClick={() => removeNewGallery(i)} className="absolute inset-0 m-auto w-6 h-6 bg-rose-500 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:scale-110"><Trash2 className="w-3.5 h-3.5" /></button>
+                        </div>
+                      ))}
+                    </div>
+                    
+                    <input type="file" accept="image/*" multiple onChange={handleGalleryChange} className="text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-slate-100 file:text-slate-700 hover:file:bg-slate-200 dark:file:bg-slate-800 dark:file:text-slate-300" />
+                  </div>
+
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div className="flex flex-col gap-1.5">
                       <label className="text-xs font-bold text-slate-500 uppercase">Tanggal Pembuatan</label>
@@ -509,13 +623,18 @@ export default function AdminDashboard() {
                   <button onClick={() => setIsEditing(false)} className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 transition-colors">
                     <ArrowLeft className="w-4 h-4" /> Batal Edit
                   </button>
-                  <button onClick={handleSaveEdit} className="px-6 py-2.5 bg-primary-600 hover:bg-primary-700 text-white rounded-xl font-medium text-sm transition-colors shadow-lg shadow-primary-500/20 flex items-center gap-2">
-                    <Check className="w-4 h-4" /> Simpan Perubahan
+                  <button onClick={handleSaveEdit} disabled={isSaving} className="px-6 py-2.5 bg-primary-600 hover:bg-primary-700 disabled:opacity-50 text-white rounded-xl font-medium text-sm transition-colors shadow-lg shadow-primary-500/20 flex items-center gap-2">
+                    {isSaving ? (
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    ) : (
+                      <Check className="w-4 h-4" />
+                    )}
+                    {isSaving ? "Menyimpan..." : "Simpan Perubahan"}
                   </button>
                 </>
               ) : (
                 <>
-                  <button onClick={openEdit} className="flex items-center gap-2 px-4 py-2.5 bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 rounded-xl font-medium text-sm transition-colors">
+                  <button onClick={() => openEdit(selectedPortfolio)} className="flex items-center gap-2 px-4 py-2.5 bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 rounded-xl font-medium text-sm transition-colors">
                     <Edit className="w-4 h-4" /> Edit Data
                   </button>
                   <div className="flex gap-2">
