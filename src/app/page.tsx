@@ -136,7 +136,7 @@ export default function PortfolioPage() {
                       <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
                         {project.title}
                       </h3>
-                      <p className="text-slate-600 dark:text-slate-400 text-sm mb-6 flex-grow">
+                      <p className="text-slate-600 dark:text-slate-400 text-sm mb-6 flex-grow line-clamp-3">
                         {project.description}
                       </p>
                       
