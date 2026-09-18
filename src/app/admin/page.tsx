@@ -106,8 +106,8 @@ export default function AdminDashboard() {
     setIsEditing(false);
   };
 
-  const openEdit = () => {
-    setEditData({ ...selectedPortfolio });
+  const openEdit = (portfolio: any = selectedPortfolio) => {
+    setEditData({ ...portfolio });
     setIsEditing(true);
   };
 
@@ -279,7 +279,7 @@ export default function AdminDashboard() {
                   
                   <div className="mt-auto pt-4 border-t border-slate-100 dark:border-slate-800 flex gap-2">
                     <button 
-                      onClick={(e) => { e.stopPropagation(); openPreview(portfolio); openEdit(); }}
+                      onClick={(e) => { e.stopPropagation(); openPreview(portfolio); openEdit(portfolio); }}
                       className="flex-1 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 py-2.5 rounded-xl font-medium transition-colors text-sm flex items-center justify-center gap-2"
                     >
                       <Edit className="w-4 h-4" /> Edit
@@ -391,7 +391,7 @@ export default function AdminDashboard() {
                   <div className="flex flex-col gap-1.5">
                     <label className="text-xs font-bold text-slate-500 uppercase">Tags</label>
                     <div className="flex flex-wrap gap-2 mb-2">
-                      {editData.tags.map((t: string, i: number) => (
+                      {(editData.tags || []).map((t: string, i: number) => (
                         <div key={i} className="flex items-center gap-1 bg-primary-100 dark:bg-primary-900/40 text-primary-700 dark:text-primary-300 px-3 py-1 rounded-full text-xs font-medium">
                           {t}
                           <button type="button" onClick={() => setEditData({...editData, tags: editData.tags.filter((_: any, idx: number) => idx !== i)})}><X className="w-3 h-3 hover:text-rose-500" /></button>
