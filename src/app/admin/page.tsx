@@ -120,14 +120,18 @@ export default function AdminDashboard() {
     setEditData({ ...editData, [e.target.name]: e.target.value });
   };
 
+  const handleAddTag = (e?: React.SyntheticEvent) => {
+    if (e) e.preventDefault();
+    const newTag = editTagInput.trim().replace(",", "");
+    if (newTag && !editData.tags.includes(newTag)) {
+      setEditData({ ...editData, tags: [...editData.tags, newTag] });
+    }
+    setEditTagInput("");
+  };
+
   const handleTagKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" || e.key === ",") {
-      e.preventDefault();
-      const newTag = editTagInput.trim().replace(",", "");
-      if (newTag && !editData.tags.includes(newTag)) {
-        setEditData({ ...editData, tags: [...editData.tags, newTag] });
-      }
-      setEditTagInput("");
+      handleAddTag(e);
     } else if (e.key === "Backspace" && editTagInput === "" && editData.tags.length > 0) {
       setEditData({ ...editData, tags: editData.tags.slice(0, -1) });
     }
@@ -394,11 +398,21 @@ export default function AdminDashboard() {
                         </div>
                       ))}
                     </div>
-                    <input 
-                      type="text" value={editTagInput} onChange={(e) => setEditTagInput(e.target.value)} onKeyDown={handleTagKeyDown}
-                      placeholder="Ketik tag lalu tekan Enter"
-                      className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-sm focus:ring-2 focus:ring-primary-500/50 outline-none"
-                    />
+                    <div className="flex items-center gap-2">
+                      <input 
+                        type="text" value={editTagInput} onChange={(e) => setEditTagInput(e.target.value)} onKeyDown={handleTagKeyDown}
+                        placeholder="Ketik tag lalu tekan Enter atau koma"
+                        className="flex-1 px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-sm focus:ring-2 focus:ring-primary-500/50 outline-none"
+                      />
+                      <button
+                        type="button"
+                        onClick={handleAddTag}
+                        disabled={!editTagInput.trim()}
+                        className="px-4 py-2.5 text-sm font-semibold rounded-xl bg-primary-500 text-white disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:bg-primary-600 active:scale-95"
+                      >
+                        Tambah
+                      </button>
+                    </div>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-5">

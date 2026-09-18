@@ -180,14 +180,18 @@ export default function AddPortfolioPage() {
     setGalleryPreviews(prev => prev.filter((_, i) => i !== index));
   };
 
+  const handleAddTag = (e?: React.SyntheticEvent) => {
+    if (e) e.preventDefault();
+    const newTag = tagInput.trim().replace(",", "");
+    if (newTag && !tags.includes(newTag)) {
+      setTags([...tags, newTag]);
+    }
+    setTagInput("");
+  };
+
   const handleTagKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" || e.key === ",") {
-      e.preventDefault();
-      const newTag = tagInput.trim().replace(",", "");
-      if (newTag && !tags.includes(newTag)) {
-        setTags([...tags, newTag]);
-      }
-      setTagInput("");
+      handleAddTag(e);
     } else if (e.key === "Backspace" && tagInput === "" && tags.length > 0) {
       setTags(tags.slice(0, -1));
     }
@@ -692,7 +696,7 @@ export default function AddPortfolioPage() {
                 Tech Stack / Tagar <span className="text-rose-500">*</span>
               </label>
               <p className="text-[11px] text-slate-400 dark:text-slate-500 -mt-1">
-                Contoh: Next.js, Juara 1, Pertukaran Pelajar Jepang, Lomba AI, dsb. Tekan <kbd className="font-mono bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded text-primary-600 dark:text-primary-400">Enter</kbd> setelah mengetik.
+                Contoh: Next.js, Juara 1, Pertukaran Pelajar Jepang, Lomba AI, dsb. Tekan <kbd className="font-mono bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded text-primary-600 dark:text-primary-400">Enter</kbd>, koma (,), atau tombol Tambah.
               </p>
 
               <div
@@ -723,6 +727,14 @@ export default function AddPortfolioPage() {
                   className="flex-1 min-w-[130px] bg-transparent outline-none px-2 text-sm text-slate-700 dark:text-slate-200 placeholder:text-slate-400"
                   placeholder={tags.length === 0 ? "Ketik nama stack lalu tekan Enter..." : "Tambah lagi..."}
                 />
+                <button
+                  type="button"
+                  onClick={handleAddTag}
+                  disabled={!tagInput.trim()}
+                  className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-primary-500 text-white disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:bg-primary-600 active:scale-95"
+                >
+                  Tambah
+                </button>
               </div>
             </div>
 
