@@ -85,8 +85,27 @@ export default function PortfolioPage() {
           </div>
 
           {loading ? (
-            <div className="flex justify-center items-center py-20">
-              <div className="w-12 h-12 border-4 border-primary-200 border-t-primary-600 rounded-full animate-spin"></div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+              {[1, 2, 3, 4, 5, 6].map((item) => (
+                <div key={item} className="glass-card rounded-2xl overflow-hidden flex flex-col h-full animate-pulse">
+                  {/* Image Placeholder */}
+                  <div className="h-56 w-full bg-slate-200 dark:bg-slate-800/50"></div>
+                  {/* Content Placeholder */}
+                  <div className="p-6 flex flex-col flex-grow">
+                    <div className="h-6 w-2/3 bg-slate-200 dark:bg-slate-800/50 rounded-lg mb-4"></div>
+                    <div className="h-4 w-full bg-slate-200 dark:bg-slate-800/50 rounded-md mb-2"></div>
+                    <div className="h-4 w-4/5 bg-slate-200 dark:bg-slate-800/50 rounded-md mb-6"></div>
+                    <div className="flex gap-2 mb-6">
+                      <div className="h-6 w-16 bg-slate-200 dark:bg-slate-800/50 rounded-md"></div>
+                      <div className="h-6 w-20 bg-slate-200 dark:bg-slate-800/50 rounded-md"></div>
+                    </div>
+                    <div className="flex items-center gap-4 pt-4 border-t border-slate-200 dark:border-white/10 mt-auto">
+                      <div className="h-5 w-16 bg-slate-200 dark:bg-slate-800/50 rounded-md"></div>
+                      <div className="h-5 w-24 bg-slate-200 dark:bg-slate-800/50 rounded-md ml-auto"></div>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           ) : (
             <>
