@@ -645,11 +645,6 @@ export default function AddPortfolioPage() {
                   <option value="Aplikasi">Aplikasi</option>
                   <option value="Prestasi">Prestasi & Kompetisi</option>
                   <option value="Student Exchange">Student Exchange</option>
-                  <option value="Desain UI/UX">Desain UI/UX</option>
-                  <option value="Ebook">Ebook</option>
-                  <option value="Desain Grafis">Desain Grafis</option>
-                  <option value="Motion Grafis">Motion Grafis</option>
-                  <option value="Videography">Videography</option>
                 </select>
                 <ChevronDown className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
               </div>

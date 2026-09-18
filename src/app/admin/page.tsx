@@ -337,11 +337,6 @@ export default function AdminDashboard() {
                         <option value="Aplikasi">Aplikasi</option>
                         <option value="Prestasi">Prestasi & Kompetisi</option>
                         <option value="Student Exchange">Student Exchange</option>
-                        <option value="Desain UI/UX">Desain UI/UX</option>
-                        <option value="Ebook">Ebook</option>
-                        <option value="Desain Grafis">Desain Grafis</option>
-                        <option value="Motion Grafis">Motion Grafis</option>
-                        <option value="Videography">Videography</option>
                       </select>
                     </div>
                   </div>
