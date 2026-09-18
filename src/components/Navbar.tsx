@@ -47,10 +47,12 @@ export default function Navbar() {
           ))}
           <ThemeToggle />
           <a
-            href="mailto:hello@tpl.ipb.ac.id"
+            href="https://sv.ipb.ac.id/teknologi-rekayasa-perangkat-lunak/"
+            target="_blank"
+            rel="noopener noreferrer"
             className="px-5 py-2.5 text-sm font-medium bg-primary-600 hover:bg-primary-700 text-white rounded-full transition-all shadow-[0_0_15px_rgba(37,99,235,0.4)]"
           >
-            Hubungi Kami
+            Lihat Detail
           </a>
         </nav>
 
@@ -84,11 +86,13 @@ export default function Navbar() {
             </a>
           ))}
           <a
-            href="mailto:hello@tpl.ipb.ac.id"
+            href="https://sv.ipb.ac.id/teknologi-rekayasa-perangkat-lunak/"
+            target="_blank"
+            rel="noopener noreferrer"
             className="text-center px-5 py-2.5 text-sm font-medium bg-primary-600 text-white rounded-lg shadow-md"
             onClick={() => setIsMobileMenuOpen(false)}
           >
-            Hubungi Kami
+            Lihat Detail
           </a>
         </motion.div>
       )}

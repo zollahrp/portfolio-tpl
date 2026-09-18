@@ -50,15 +50,15 @@ export default function PortfolioPage() {
     <main className="min-h-screen bg-slate-50 dark:bg-[#020617] text-slate-900 dark:text-white transition-colors duration-300 flex flex-col">
       <Navbar />
       
-      <section className="pt-32 pb-16 relative flex-grow">
+      <section className="pt-24 md:pt-32 pb-16 relative flex-grow overflow-hidden">
         {/* Background elements */}
-        <div className="absolute top-1/4 left-1/4 w-[30rem] h-[30rem] bg-primary-600/10 rounded-full blur-[100px] -z-10 animate-pulse"></div>
+        <div className="absolute top-1/4 left-1/4 w-64 h-64 md:w-[30rem] md:h-[30rem] bg-primary-600/10 rounded-full blur-[100px] -z-10 animate-pulse"></div>
 
         <div className="container mx-auto px-6 md:px-12">
           
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
             <div>
-              <h1 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-4">
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 dark:text-white mb-4 leading-tight">
                 Karya & <span className="text-gradient">Prestasi</span>
               </h1>
               <p className="text-slate-600 dark:text-slate-400 max-w-2xl text-lg">
@@ -90,7 +90,7 @@ export default function PortfolioPage() {
             </div>
           ) : (
             <>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
                 {filteredProjects.map((project, index) => {
                   const liveDemoUrl = project.liveUrl || project.link || project.demoUrl || project.url;
                   const sourceCodeUrl = project.githubUrl || project.repoUrl || project.repository || project.github;

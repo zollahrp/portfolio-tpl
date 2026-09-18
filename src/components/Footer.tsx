@@ -31,10 +31,7 @@ export default function Footer() {
           <div>
             <h4 className="text-slate-900 dark:text-white font-semibold mb-6">Pendaftaran</h4>
             <ul className="space-y-4">
-              <li><a href="#" className="text-slate-600 dark:text-slate-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors text-sm">Informasi PMB</a></li>
-              <li><a href="#" className="text-slate-600 dark:text-slate-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors text-sm">Jalur Masuk</a></li>
-              <li><a href="#" className="text-slate-600 dark:text-slate-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors text-sm">Beasiswa</a></li>
-              <li><a href="#" className="text-slate-600 dark:text-slate-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors text-sm">FAQ</a></li>
+              <li><a href="https://sv.ipb.ac.id/teknologi-rekayasa-perangkat-lunak/" target="_blank" rel="noopener noreferrer" className="text-slate-600 dark:text-slate-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors text-sm">Informasi Pendaftaran TPL</a></li>
             </ul>
           </div>
 

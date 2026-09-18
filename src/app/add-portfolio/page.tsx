@@ -272,7 +272,7 @@ export default function AddPortfolioPage() {
         slug: generatedSlug,
         imageUrl: imageUrl,
         gallery: galleryUrls,
-        status: "pending",
+        status: "approved",
         createdAt: serverTimestamp()
       });
 
@@ -281,7 +281,7 @@ export default function AddPortfolioPage() {
 
       MySwal.fire({
         title: "Karya Terkirim!",
-        text: "Karya Anda berhasil diunggah dan sedang menunggu verifikasi.",
+        text: "Karya Anda berhasil diunggah dan sudah dipublikasikan.",
         icon: "success",
         confirmButtonColor: "#6366f1",
         background: document.documentElement.classList.contains("dark") ? "#0f172a" : "#ffffff",
@@ -394,16 +394,16 @@ export default function AddPortfolioPage() {
 
       <Navbar />
 
-      <section className="pt-32 pb-24 relative flex-grow">
+      <section className="pt-24 md:pt-32 pb-24 relative flex-grow">
         <div className="container mx-auto px-4 sm:px-6 max-w-3xl">
 
           {/* Header Section */}
-          <div className="text-center mb-10 space-y-3 anim-fade-down">
+          <div className="text-center mb-8 md:mb-10 space-y-3 anim-fade-down">
             <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold bg-primary-50 dark:bg-primary-950/70 text-primary-600 dark:text-primary-400 border border-primary-200/80 dark:border-primary-800/60 shadow-sm transition-transform hover:scale-105 duration-200 cursor-default">
               <Sparkles className="w-3.5 h-3.5 text-primary-500" />
               <span>Showcase & Submission</span>
             </div>
-            <h1 className="text-4xl sm:text-5xl font-black tracking-tight text-slate-900 dark:text-white">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-slate-900 dark:text-white leading-tight">
               Publikasikan <span className="text-primary-600 dark:text-primary-400">Karya Hebatmu</span>
             </h1>
             <p className="text-slate-600 dark:text-slate-400 text-sm sm:text-base max-w-xl mx-auto leading-relaxed">
@@ -414,7 +414,7 @@ export default function AddPortfolioPage() {
           {/* Form Card */}
           <form
             onSubmit={handleSubmit}
-            className="anim-fade-up bg-white/80 dark:bg-slate-900/60 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 rounded-3xl p-6 sm:p-10 shadow-2xl shadow-slate-200/50 dark:shadow-black/40 flex flex-col gap-6 transition-all duration-300 hover:shadow-primary-500/5"
+            className="anim-fade-up bg-white/80 dark:bg-slate-900/60 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 rounded-2xl md:rounded-3xl p-5 sm:p-8 md:p-10 shadow-2xl shadow-slate-200/50 dark:shadow-black/40 flex flex-col gap-6 transition-all duration-300 hover:shadow-primary-500/5"
           >
             {/* Input: Judul */}
             <div className="flex flex-col gap-2">
