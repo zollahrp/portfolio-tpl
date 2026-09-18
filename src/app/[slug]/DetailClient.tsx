@@ -270,6 +270,36 @@ export default function DetailClient({ project }: { project: any }) {
                   </div>
                 </div>
 
+                {/* Kreator Info - Bento Card 3 */}
+                {(project.angkatan || project.contact) && (
+                  <div className="glass-card p-8 rounded-[2.5rem] shadow-xl border border-slate-200/60 dark:border-white/10">
+                    <div className="flex items-center justify-between mb-6">
+                      <h3 className="text-slate-900 dark:text-white font-bold text-xl">
+                        Info Kreator
+                      </h3>
+                      <div className="p-2 bg-blue-100 dark:bg-blue-900/30 text-blue-600 rounded-xl">
+                        <Sparkles className="w-5 h-5" />
+                      </div>
+                    </div>
+                    
+                    <div className="flex flex-col gap-4">
+                      {project.angkatan && (
+                        <div>
+                          <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">Angkatan</p>
+                          <p className="font-semibold text-slate-800 dark:text-slate-200">{project.angkatan}</p>
+                        </div>
+                      )}
+                      
+                      {project.contact && (
+                        <div>
+                          <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">Kontak</p>
+                          <p className="font-semibold text-slate-800 dark:text-slate-200 break-words">{project.contact}</p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+
               </motion.div>
             </div>
             

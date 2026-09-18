@@ -142,7 +142,10 @@ export default function AdminDashboard() {
         content: editData.content,
         tags: editData.tags,
         githubUrl: editData.githubUrl,
-        liveUrl: editData.liveUrl
+        liveUrl: editData.liveUrl,
+        angkatan: editData.angkatan || "",
+        contact: editData.contact || "",
+        date: editData.date || new Date().toISOString().split("T")[0]
       });
       // Update local state
       setPendingPortfolios(prev => prev.map(p => p.id === editData.id ? editData : p));
@@ -331,9 +334,14 @@ export default function AdminDashboard() {
                         className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-sm focus:ring-2 focus:ring-primary-500/50 outline-none"
                       >
                         <option value="Web">Web Development</option>
-                        <option value="Aplikasi">Mobile App</option>
+                        <option value="Aplikasi">Aplikasi</option>
                         <option value="Prestasi">Prestasi & Kompetisi</option>
                         <option value="Student Exchange">Student Exchange</option>
+                        <option value="Desain UI/UX">Desain UI/UX</option>
+                        <option value="Ebook">Ebook</option>
+                        <option value="Desain Grafis">Desain Grafis</option>
+                        <option value="Motion Grafis">Motion Grafis</option>
+                        <option value="Videography">Videography</option>
                       </select>
                     </div>
                   </div>
@@ -342,6 +350,31 @@ export default function AdminDashboard() {
                     <label className="text-xs font-bold text-slate-500 uppercase">Deskripsi Singkat</label>
                     <textarea 
                       name="description" rows={2} value={editData.description} onChange={handleEditChange}
+                      className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-sm focus:ring-2 focus:ring-primary-500/50 outline-none"
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-xs font-bold text-slate-500 uppercase">Tanggal Pembuatan</label>
+                      <input 
+                        type="date" name="date" value={editData.date || ""} onChange={handleEditChange} 
+                        className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-sm focus:ring-2 focus:ring-primary-500/50 outline-none"
+                      />
+                    </div>
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-xs font-bold text-slate-500 uppercase">Angkatan</label>
+                      <input 
+                        type="text" name="angkatan" value={editData.angkatan || ""} onChange={handleEditChange} 
+                        className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-sm focus:ring-2 focus:ring-primary-500/50 outline-none"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col gap-1.5">
+                    <label className="text-xs font-bold text-slate-500 uppercase">Kontak</label>
+                    <input 
+                      type="text" name="contact" value={editData.contact || ""} onChange={handleEditChange} 
                       className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-sm focus:ring-2 focus:ring-primary-500/50 outline-none"
                     />
                   </div>

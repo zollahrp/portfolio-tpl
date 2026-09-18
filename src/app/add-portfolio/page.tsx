@@ -86,7 +86,10 @@ export default function AddPortfolioPage() {
     description: "",
     content: "",
     github: "",
-    link: ""
+    link: "",
+    angkatan: "",
+    contact: "",
+    date: ""
   });
 
   const [tags, setTags] = useState<string[]>([]);
@@ -264,10 +267,11 @@ export default function AddPortfolioPage() {
         .replace(/(^-|-$)+/g, "");
 
       const currentDate = new Date().toISOString().split("T")[0];
+      const portfolioDate = formData.date || currentDate;
 
       await addDoc(collection(db, "portfolios"), {
         ...formData,
-        date: currentDate,
+        date: portfolioDate,
         tags: tags,
         slug: generatedSlug,
         imageUrl: imageUrl,
@@ -296,7 +300,10 @@ export default function AddPortfolioPage() {
         content: "",
         category: "Web",
         github: "",
-        link: ""
+        link: "",
+        angkatan: "",
+        contact: "",
+        date: ""
       });
       setTags([]);
       setImageFile(null);
@@ -432,6 +439,57 @@ export default function AddPortfolioPage() {
                 placeholder="Contoh: Juara 1, Student Exchange bla bla"
               />
               <p className="text-[11px] text-slate-400 dark:text-slate-500">Slug URL akan dibentuk secara otomatis dari judul ini.</p>
+            </div>
+
+            {/* Input: Tanggal & Angkatan */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="flex flex-col gap-2">
+                <label className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+                  <Layers className="w-3.5 h-3.5 text-primary-500" />
+                  Tanggal / Waktu Pembuatan <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="date"
+                  name="date"
+                  required
+                  value={formData.date}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/50 focus:bg-white dark:focus:bg-slate-900 focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10 outline-none transition-all duration-200 text-sm"
+                />
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <label className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+                  <Layers className="w-3.5 h-3.5 text-primary-500" />
+                  Angkatan <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  name="angkatan"
+                  required
+                  value={formData.angkatan}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/50 focus:bg-white dark:focus:bg-slate-900 focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10 outline-none transition-all duration-200 text-sm"
+                  placeholder="Contoh: 60"
+                />
+              </div>
+            </div>
+
+            {/* Input: Kontak */}
+            <div className="flex flex-col gap-2">
+              <label className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+                <Globe className="w-3.5 h-3.5 text-primary-500" />
+                Kontak (Email / WA / IG) <span className="text-rose-500">*</span>
+              </label>
+              <input
+                type="text"
+                name="contact"
+                required
+                value={formData.contact}
+                onChange={handleChange}
+                className="w-full px-4 py-3.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/50 focus:bg-white dark:focus:bg-slate-900 focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10 outline-none transition-all duration-200 text-sm"
+                placeholder="Contoh: @username_ig / 0812..."
+              />
             </div>
 
             {/* Input: Thumbnail Visual */}
@@ -584,9 +642,14 @@ export default function AddPortfolioPage() {
                   className="w-full px-4 py-3.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/50 focus:bg-white dark:focus:bg-slate-900 focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10 outline-none transition-all text-sm appearance-none cursor-pointer"
                 >
                   <option value="Web">Web Development</option>
-                  <option value="Aplikasi">Mobile App</option>
+                  <option value="Aplikasi">Aplikasi</option>
                   <option value="Prestasi">Prestasi & Kompetisi</option>
                   <option value="Student Exchange">Student Exchange</option>
+                  <option value="Desain UI/UX">Desain UI/UX</option>
+                  <option value="Ebook">Ebook</option>
+                  <option value="Desain Grafis">Desain Grafis</option>
+                  <option value="Motion Grafis">Motion Grafis</option>
+                  <option value="Videography">Videography</option>
                 </select>
                 <ChevronDown className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
               </div>

@@ -2,7 +2,7 @@
 
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-export type PortfolioCategory = "Web" | "Aplikasi" | "Prestasi" | "Student Exchange";
+export type PortfolioCategory = "Web" | "Aplikasi" | "Prestasi" | "Student Exchange" | "Desain UI/UX" | "Ebook" | "Desain Grafis" | "Motion Grafis" | "Videography";
 import { motion } from "framer-motion";
 import { ExternalLink, Code, ArrowLeft, LayoutGrid } from "lucide-react";
 import Link from "next/link";
@@ -13,7 +13,7 @@ import { db } from "@/lib/firebase";
 
 export default function PortfolioPage() {
   const [activeCategory, setActiveCategory] = useState<PortfolioCategory | "Semua">("Semua");
-  const categories: (PortfolioCategory | "Semua")[] = ["Semua", "Web", "Aplikasi", "Prestasi", "Student Exchange"];
+  const categories: (PortfolioCategory | "Semua")[] = ["Semua", "Web", "Aplikasi", "Prestasi", "Student Exchange", "Desain UI/UX", "Ebook", "Desain Grafis", "Motion Grafis", "Videography"];
   const [portfolioData, setPortfolioData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [loadedImages, setLoadedImages] = useState<Record<string, boolean>>({});
