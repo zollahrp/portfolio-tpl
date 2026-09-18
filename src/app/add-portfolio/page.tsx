@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import Navbar from "@/components/Navbar";
@@ -75,6 +76,7 @@ const quillModules = {
 };
 
 export default function AddPortfolioPage() {
+  const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
 
@@ -284,6 +286,8 @@ export default function AddPortfolioPage() {
         confirmButtonColor: "#6366f1",
         background: document.documentElement.classList.contains("dark") ? "#0f172a" : "#ffffff",
         color: document.documentElement.classList.contains("dark") ? "#f8fafc" : "#0f172a"
+      }).then(() => {
+        router.push("/");
       });
 
       setFormData({
@@ -297,6 +301,8 @@ export default function AddPortfolioPage() {
       setTags([]);
       setImageFile(null);
       setImagePreview(null);
+      setGalleryFiles([]);
+      setGalleryPreviews([]);
       setTimeout(() => setUploadProgress(0), 1000);
     } catch (error: unknown) {
       console.error("Error: ", error);
