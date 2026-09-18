@@ -61,7 +61,7 @@ export default function DetailClient({ project }: { project: any }) {
           </motion.div>
 
           {/* Hero Content (Centered, Gradient, Premium) */}
-          <div className="flex flex-col items-center text-center max-w-4xl mx-auto mb-20">
+          <div className="flex flex-col items-center text-center max-w-4xl mx-auto mb-8">
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -78,19 +78,10 @@ export default function DetailClient({ project }: { project: any }) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-5xl md:text-6xl lg:text-7xl font-black mb-8 leading-[1.1] tracking-tight"
+              className="text-5xl md:text-6xl lg:text-7xl font-black leading-[1.1] tracking-tight"
             >
               <span className="text-slate-900 dark:text-white">{project.title}</span>
             </motion.h1>
-
-            <motion.p 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-lg md:text-2xl text-slate-600 dark:text-slate-300 leading-relaxed font-medium"
-            >
-              {project.description}
-            </motion.p>
           </div>
 
           {/* Cinematic Hero Image */}

@@ -104,10 +104,6 @@ export default function PortfolioPage() {
                     className="group flex flex-col"
                   >
                     <div className="glass-card rounded-2xl overflow-hidden flex flex-col flex-grow relative h-full hover:-translate-y-1 transition-transform duration-300">
-                    {/* Overlay link for the entire card */}
-                    <Link href={`/${project.slug}`} className="absolute inset-0 z-10">
-                      <span className="sr-only">Lihat detail {project.title}</span>
-                    </Link>
                     {/* Project Image Placeholder */}
                     <div className={`h-56 w-full relative overflow-hidden bg-slate-200 dark:bg-slate-800 ${!loadedImages[project.id || index] ? 'animate-pulse' : ''}`}>
                       {project.imageUrl || project.image ? (
@@ -163,6 +159,12 @@ export default function PortfolioPage() {
                         )}
                       </div>
                     </div>
+
+                    {/* Overlay link for the entire card (moved to bottom for better z-index stacking) */}
+                    <Link href={`/${project.slug}`} className="absolute inset-0 z-10">
+                      <span className="sr-only">Lihat detail {project.title}</span>
+                    </Link>
+                    
                     </div>
                   </motion.div>
                 )})}
